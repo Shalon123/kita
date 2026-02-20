@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>כיתה ד3 | מורשת זבולון | גבעת שמואל</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=Rubik:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #2C5F8A;
+  --primary-light: #4A90C4;
+  --accent: #F4A623;
+  --accent-soft: #FFF3D6;
+  --soft-blue: #EBF4FB;
+  --soft-green: #E8F8F0;
+  --green: #27AE60;
+  --red: #E74C3C;
+  --dark: #1A2B3C;
+  --mid: #4A6278;
+  --light: #F7F9FC;
+  --white: #FFFFFF;
+  --border: #D8E8F4;
+  --shadow: 0 4px 20px rgba(44,95,138,0.10);
+  --shadow-strong: 0 8px 32px rgba(44,95,138,0.18);
+  --radius: 16px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--light);
+  color: var(--dark);
+  min-height: 100vh;
+  direction: rtl;
+}
+
+/* LOGIN SCREEN */
+#loginScreen {
+  position: fixed; inset: 0;
+  background: linear-gradient(135deg, #1A2B3C 0%, #2C5F8A 50%, #4A90C4 100%);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  flex-direction: column;
+  gap: 32px;
+}
+
+#loginScreen.hidden { display: none; }
+
+.login-box {
+  background: white;
+  border-radius: 24px;
+  padding: 48px 40px;
+  width: 380px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.login-logo {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 36px;
+}
+
+.login-box h2 { color: var(--primary); font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.login-box p { color: var(--mid); font-size: 14px; margin-bottom: 28px; }
+
+.login-box input {
+  width: 100%; padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'Heebo', sans-serif;
+  font-size: 15px;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color .2s;
+  direction: rtl;
+}
+.login-box input:focus { border-color: var(--primary); }
+.login-box button {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white; border: none; border-radius: var(--radius-sm);
+  font-family: 'Heebo', sans-serif;
+  font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: opacity .2s;
+}
+.login-box button:hover { opacity: .9; }
+#loginError { color: var(--red); font-size: 13px; margin-top: 8px; min-height: 18px; }
+
+/* MAIN LAYOUT */
+header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white; position: sticky; top: 0; z-index: 100;
+  box-shadow: var(--shadow-strong);
+}
+
+.header-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.school-brand { display: flex; align-items: center; gap: 12px; }
+.school-logo {
+  width: 52px; height: 52px;
+  background: white; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+.school-name { font-size: 11px; opacity: .85; font-weight: 400; }
+.class-title { font-size: 20px; font-weight: 800; }
+
+.header-clock {
+  text-align: center;
+}
+.clock-time { font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 2px; }
+.clock-date { font-size: 12px; opacity: .8; }
+
+.shabbat-times {
+  text-align: left;
+  background: rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 8px 14px;
+  min-width: 180px;
+}
+.shabbat-label { font-size: 11px; opacity: .8; margin-bottom: 4px; }
+.shabbat-row { display: flex; justify-content: space-between; gap: 16px; font-size: 13px; font-weight: 600; }
+
+nav {
+  display: flex; gap: 0; padding: 0 24px;
+  overflow-x: auto;
+}
+
+.nav-btn {
+  background: none; border: none; color: rgba(255,255,255,.75);
+  font-family: 'Heebo', sans-serif; font-size: 14px; font-weight: 500;
+  padding: 12px 18px; cursor: pointer; border-bottom: 3px solid transparent;
+  transition: all .2s; white-space: nowrap;
+}
+.nav-btn.active, .nav-btn:hover {
+  color: white; border-bottom-color: var(--accent);
+}
+
+/* CONTENT AREA */
+main { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* CARDS */
+.card {
+  background: white; border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.card-title {
+  font-size: 18px; font-weight: 800; color: var(--primary);
+  margin-bottom: 18px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-title .icon { font-size: 22px; }
+
+/* GRID */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+/* BIRTHDAY BANNER */
+.birthday-banner {
+  background: linear-gradient(135deg, #FF6B9D, #FF8E53);
+  border-radius: var(--radius); padding: 20px 24px;
+  color: white; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 16px;
+  box-shadow: var(--shadow-strong);
+  animation: pulse-banner 3s ease-in-out infinite;
+}
+@keyframes pulse-banner {
+  0%,100% { box-shadow: 0 4px 20px rgba(255,107,157,.3); }
+  50% { box-shadow: 0 8px 40px rgba(255,107,157,.55); }
+}
+.birthday-banner.hidden { display: none; }
+.bday-icon { font-size: 48px; }
+.bday-text h3 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+.bday-text p { font-size: 14px; opacity: .9; }
+.bday-names { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.bday-chip {
+  background: rgba(255,255,255,0.25);
+  border-radius: 20px; padding: 4px 14px;
+  font-size: 14px; font-weight: 700;
+}
+
+/* STUDENT TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { background: var(--soft-blue); color: var(--primary); font-weight: 700; padding: 10px 14px; text-align: right; border-bottom: 2px solid var(--border); }
+td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+tr:hover td { background: var(--soft-blue); }
+tr:last-child td { border-bottom: none; }
+
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.badge-girl { background: #FFE5F0; color: #C2185B; }
+.badge-admin { background: var(--soft-blue); color: var(--primary); }
+
+/* SCHEDULE */
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 80px repeat(5, 1fr);
+  gap: 4px;
+}
+.sch-header {
+  background: var(--primary); color: white;
+  text-align: center; padding: 10px 6px;
+  border-radius: var(--radius-sm);
+  font-weight: 700; font-size: 13px;
+}
+.sch-time {
+  background: var(--soft-blue);
+  text-align: center; padding: 10px 6px;
+  border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 600; color: var(--mid);
+}
+.sch-cell {
+  padding: 8px 6px; text-align: center;
+  border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 500;
+  min-height: 50px; display: flex; align-items: center; justify-content: center;
+}
+.sch-lesson { background: #EBF4FB; color: var(--primary); }
+.sch-break { background: #FFF9E6; color: #B8860B; font-size: 11px; }
+.sch-empty { background: var(--light); }
+
+/* EVENTS */
+.event-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+}
+.event-item:last-child { border-bottom: none; }
+.event-date-box {
+  background: var(--primary); color: white;
+  border-radius: 12px; padding: 8px 14px;
+  text-align: center; min-width: 58px;
+  flex-shrink: 0;
+}
+.event-date-box .day { font-size: 22px; font-weight: 800; }
+.event-date-box .month { font-size: 11px; opacity: .85; }
+.event-info h4 { font-size: 15px; font-weight: 700; }
+.event-info p { font-size: 13px; color: var(--mid); margin-top: 2px; }
+.event-type {
+  margin-right: auto; flex-shrink: 0;
+  font-size: 11px; font-weight: 600; padding: 4px 10px;
+  border-radius: 20px;
+}
+.type-exam { background: #FFE5E5; color: var(--red); }
+.type-event { background: var(--accent-soft); color: #B8860B; }
+.type-trip { background: var(--soft-green); color: var(--green); }
+
+/* EXAMS */
+.exam-card {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px; border-radius: 12px;
+  border: 2px solid var(--border); margin-bottom: 12px;
+  transition: border-color .2s;
+}
+.exam-card:hover { border-color: var(--primary-light); }
+.exam-icon { font-size: 28px; }
+.exam-info h4 { font-size: 15px; font-weight: 700; }
+.exam-info p { font-size: 13px; color: var(--mid); }
+.exam-date { margin-right: auto; color: var(--red); font-weight: 700; font-size: 13px; }
+
+/* ADMIN PANEL */
+.admin-section { margin-bottom: 28px; }
+.admin-section h3 { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group label { font-size: 13px; font-weight: 600; color: var(--mid); }
+.form-group input, .form-group select, .form-group textarea {
+  padding: 10px 12px; border: 2px solid var(--border);
+  border-radius: var(--radius-sm); font-family: 'Heebo', sans-serif;
+  font-size: 14px; outline: none; transition: border-color .2s;
+  direction: rtl;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); }
+
+.btn {
+  padding: 10px 20px; border: none; border-radius: var(--radius-sm);
+  font-family: 'Heebo', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all .2s;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-light); }
+.btn-success { background: var(--green); color: white; }
+.btn-danger { background: var(--red); color: white; }
+.btn-accent { background: var(--accent); color: white; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+
+/* SCHOOL IMAGE */
+.school-hero {
+  border-radius: var(--radius); overflow: hidden;
+  height: 220px; position: relative;
+  background: linear-gradient(135deg, #2C5F8A, #4A90C4);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.school-hero-img {
+  width: 100%; height: 100%; object-fit: cover;
+  position: absolute; inset: 0;
+  opacity: 0.6;
+}
+.school-hero-text {
+  position: relative; text-align: center; color: white;
+}
+.school-hero-text h1 { font-size: 36px; font-weight: 900; text-shadow: 0 2px 20px rgba(0,0,0,0.4); }
+.school-hero-text p { font-size: 16px; opacity: .9; margin-top: 4px; }
+
+/* HEBREW MONTH HEADER */
+.month-header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white; border-radius: var(--radius); padding: 14px 20px;
+  margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+}
+.month-header h3 { font-size: 18px; font-weight: 800; }
+.month-header p { font-size: 13px; opacity: .85; }
+
+/* USERS TABLE */
+.user-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px; border-radius: 10px; border: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.user-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 16px; flex-shrink: 0;
+}
+.avatar-admin { background: var(--soft-blue); color: var(--primary); }
+.avatar-sub { background: var(--soft-green); color: var(--green); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; display: none;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: white; border-radius: var(--radius);
+  padding: 28px; width: 480px; max-width: 95vw;
+  box-shadow: var(--shadow-strong);
+  max-height: 85vh; overflow-y: auto;
+}
+.modal h3 { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 20px; }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--dark); color: white;
+  padding: 14px 20px; border-radius: 12px;
+  font-weight: 600; z-index: 9998;
+  transform: translateY(80px); opacity: 0;
+  transition: all .3s; pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* LOGGED IN USER CHIP */
+.user-chip {
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 4px 14px;
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.logout-btn {
+  background: rgba(255,255,255,0.15); border: none;
+  color: white; padding: 6px 14px; border-radius: 20px;
+  font-family: 'Heebo', sans-serif; font-size: 13px;
+  cursor: pointer; margin-right: 8px; font-weight: 500;
+}
+.logout-btn:hover { background: rgba(255,255,255,.25); }
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .header-top { flex-wrap: wrap; gap: 10px; }
+  .schedule-grid { grid-template-columns: 60px repeat(5, 1fr); }
+  .sch-header, .sch-cell, .sch-time { font-size: 10px; padding: 6px 3px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div style="text-align:center; color:white;">
+    <div style="font-size:64px; margin-bottom:8px;">🏫</div>
+    <h1 style="font-size:28px; font-weight:900;">מורשת זבולון</h1>
+    <p style="opacity:.75; font-size:14px;">כיתה ד3 | מורה טלי מילשטיין</p>
+  </div>
+  <div class="login-box">
+    <div class="login-logo">🎓</div>
+    <h2>ברוכים הבאים</h2>
+    <p>התחברו כדי לצפות באתר הכיתה</p>
+    <input type="text" id="loginUser" placeholder="שם משתמש" />
+    <input type="password" id="loginPass" placeholder="סיסמה" />
+    <button onclick="doLogin()">כניסה לאתר</button>
+    <div id="loginError"></div>
+    <div style="margin-top:16px; font-size:12px; color:#999; border-top:1px solid #eee; padding-top:12px;">
+      <strong>לדוגמה:</strong> admin / admin123 | student / class2024
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div class="school-brand">
+      <div class="school-logo">🏫</div>
+      <div>
+        <div class="school-name">בית ספר מורשת זבולון, גבעת שמואל</div>
+        <div class="class-title">כיתה ד3 | מורה: טלי מילשטיין</div>
+        <div style="font-size:12px; opacity:.8; margin-top:3px;">📖 פרשת השבוע: <strong id="parashaName">טוען...</strong></div>
+      </div>
+    </div>
+    <div class="header-clock">
+      <div class="clock-time" id="clockTime">--:--:--</div>
+      <div class="clock-date" id="clockDate"></div>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+      <div class="shabbat-times" id="shabbatWidget">
+        <div class="shabbat-label">🕍 שבת הקרובה</div>
+        <div class="shabbat-row">
+          <span>כניסה: <strong id="shabbatIn">--:--</strong></span>
+          <span>יציאה: <strong id="shabbatOut">--:--</strong></span>
+        </div>
+        <div style="font-size:11px; opacity:.7; margin-top:4px;" id="shabbatCity">גבעת שמואל</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="user-chip" id="userChip">👤 <span id="userChipName"></span></span>
+        <button class="logout-btn" onclick="doLogout()">יציאה</button>
+      </div>
+    </div>
+  </div>
+  <nav id="mainNav">
+    <button class="nav-btn active" onclick="showPage('home')">🏠 ראשי</button>
+    <button class="nav-btn" onclick="showPage('students')">👩‍🎓 אנשי קשר</button>
+    <button class="nav-btn" onclick="showPage('schedule')">📅 מערכת שעות</button>
+    <button class="nav-btn" onclick="showPage('events')">📣 לוח אירועים</button>
+    <button class="nav-btn" onclick="showPage('exams')">📝 לוח מבחנים</button>
+    <button class="nav-btn admin-only" onclick="showPage('admin')" style="display:none;">⚙️ ניהול</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="school-hero">
+    <div class="school-hero-text">
+      <h1>כיתה ד3</h1>
+      <p>בית ספר מורשת זבולון | גבעת שמואל | שנה"ל תשפ"ה</p>
+    </div>
+  </div>
+
+  <div id="birthdayBanner" class="birthday-banner hidden">
+    <div class="bday-icon">🎂</div>
+    <div class="bday-text">
+      <h3>יום הולדת שמח! 🎉</h3>
+      <p>בנות שיום הולדתן החודש בלוח העברי:</p>
+      <div class="bday-names" id="bdayNames"></div>
+    </div>
+  </div>
+
+  <div class="month-header">
+    <div style="font-size:28px;">📆</div>
+    <div>
+      <h3 id="hebrewMonthTitle">חודש עברי</h3>
+      <p id="hebrewDateFull"></p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><span class="icon">🔔</span>הודעות אחרונות</div>
+      <div id="homeEvents"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📝</span>מבחנים קרובים</div>
+      <div id="homeExams"></div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- STUDENTS PAGE -->
+<div id="page-students" class="page">
+  <div class="card">
+    <div class="card-title"><span class="icon">👩‍🎓</span>אנשי קשר – תלמידי הכיתה</div>
+    <div style="margin-bottom:14px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <input type="text" id="searchStudents" onkeyup="filterStudents()" placeholder="🔍 חיפוש שם..." style="padding:9px 14px; border:2px solid var(--border); border-radius:8px; font-family:'Heebo',sans-serif; font-size:14px; outline:none; min-width:200px; direction:rtl;">
+      <span id="studentCount" style="font-size:13px; color:var(--mid);"></span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table id="studentsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>שם התלמידה</th>
+            <th>תאריך לידה (עברי)</th>
+            <th>תאריך לידה (לועזי)</th>
+            <th>טלפון הורים</th>
+            <th>טלפון תלמידה</th>
+            <th>הורה</th>
+            <th id="actionsHeader" style="display:none;">פעולות</th>
+          </tr>
+        </thead>
+        <tbody id="studentsTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SCHEDULE PAGE -->
+<div id="page-schedule" class="page">
+  <div class="card">
+    <div class="card-title"><span class="icon">📅</span>מערכת שעות – כיתה ד3</div>
+    <div id="scheduleGrid" class="schedule-grid"></div>
+    <p style="font-size:12px; color:var(--mid); margin-top:14px;">* המערכת מעודכנת לשנה"ל תשפ"ה</p>
+  </div>
+</div>
+
+<!-- EVENTS PAGE -->
+<div id="page-events" class="page">
+  <div class="card">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+      <div class="card-title" style="margin:0;"><span class="icon">📣</span>לוח אירועים ואודעות</div>
+      <button class="btn btn-primary btn-sm admin-only" id="addEventBtn" onclick="openModal('addEvent')" style="display:none;">+ הוסף אירוע</button>
+    </div>
+    <div id="eventsList"></div>
+  </div>
+</div>
+
+<!-- EXAMS PAGE -->
+<div id="page-exams" class="page">
+  <div class="card">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+      <div class="card-title" style="margin:0;"><span class="icon">📝</span>לוח מבחנים</div>
+      <button class="btn btn-primary btn-sm admin-only" id="addExamBtn" onclick="openModal('addExam')" style="display:none;">+ הוסף מבחן</button>
+    </div>
+    <div id="examsList"></div>
+  </div>
+</div>
+
+<!-- ADMIN PAGE -->
+<div id="page-admin" class="page">
+  <div class="card">
+    <div class="card-title"><span class="icon">⚙️</span>ניהול האתר</div>
+
+    <!-- Students management -->
+    <div class="admin-section">
+      <h3>הוספת תלמידה חדשה</h3>
+      <div class="form-grid">
+        <div class="form-group"><label>שם התלמידה</label><input id="newName" placeholder="שם מלא" /></div>
+        <div class="form-group"><label>תאריך לידה (לועזי)</label><input id="newDOB" type="date" /></div>
+        <div class="form-group"><label>תאריך לידה (עברי)</label><input id="newHDOB" placeholder="למשל: ה' טבת תשפ"ה" /></div>
+        <div class="form-group"><label>טלפון הורים</label><input id="newPhone" placeholder="05X-XXXXXXX" /></div>
+        <div class="form-group"><label>טלפון תלמידה</label><input id="newStudentPhone" placeholder="05X-XXXXXXX" /></div>
+        <div class="form-group"><label>שם הורה</label><input id="newParent" placeholder="שם ההורה" /></div>
+        <div class="form-group"><label>חודש לידה עברי (למצגת)</label>
+          <select id="newHebrewMonth">
+            <option value="">בחר חודש</option>
+            <option value="תשרי">תשרי</option><option value="חשון">חשון</option>
+            <option value="כסלו">כסלו</option><option value="טבת">טבת</option>
+            <option value="שבט">שבט</option><option value="אדר">אדר</option>
+            <option value="ניסן">ניסן</option><option value="אייר">אייר</option>
+            <option value="סיון">סיון</option><option value="תמוז">תמוז</option>
+            <option value="אב">אב</option><option value="אלול">אלול</option>
+          </select>
+        </div>
+        <div class="form-group"><label>שם משתמש לכניסה</label><input id="newUsername2" placeholder="לדוג׳: neta123" /></div>
+        <div class="form-group"><label>סיסמה לכניסה</label><input id="newUserPass2" placeholder="סיסמה" /></div>
+      </div>
+      <button class="btn btn-success" onclick="addStudent()">➕ הוסף תלמידה</button>
+    </div>
+
+    <!-- Users management -->
+    <div class="admin-section" id="usersSection">
+      <h3>ניהול משתמשים</h3>
+      <div id="usersList"></div>
+      <div style="margin-top:16px; padding:16px; background:var(--soft-blue); border-radius:12px;">
+        <h4 style="font-size:14px; font-weight:700; margin-bottom:12px;">הוספת מנהל משנה</h4>
+        <div class="form-grid">
+          <div class="form-group"><label>שם משתמש</label><input id="newUsername" placeholder="שם משתמש" /></div>
+          <div class="form-group"><label>סיסמה</label><input id="newUserPass" type="password" placeholder="סיסמה" /></div>
+          <div class="form-group"><label>שם לתצוגה</label><input id="newUserDisplay" placeholder="שם מלא" /></div>
+          <div class="form-group"><label>תפקיד</label>
+            <select id="newUserRole">
+              <option value="sub">מנהל משנה</option>
+              <option value="viewer">צופה</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="addUser()">➕ הוסף משתמש</button>
+      </div>
+    </div>
+
+    <!-- Schedule management -->
+    <div class="admin-section">
+      <h3>✏️ עריכת מערכת שעות</h3>
+      <p style="font-size:13px; color:var(--mid); margin-bottom:14px;">לחץ על כל תא כדי לערוך את השיעור</p>
+      <div style="overflow-x:auto;">
+        <table id="scheduleEditor" style="width:100%; border-collapse:collapse; font-size:13px;">
+          <thead>
+            <tr>
+              <th style="background:var(--primary);color:white;padding:10px;border-radius:8px 0 0 0;">שעה</th>
+              <th style="background:var(--primary);color:white;padding:10px;">ראשון</th>
+              <th style="background:var(--primary);color:white;padding:10px;">שני</th>
+              <th style="background:var(--primary);color:white;padding:10px;">שלישי</th>
+              <th style="background:var(--primary);color:white;padding:10px;">רביעי</th>
+              <th style="background:var(--primary);color:white;padding:10px;border-radius:0 8px 0 0;">חמישי</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleEditorBody"></tbody>
+        </table>
+      </div>
+      <button class="btn btn-success" style="margin-top:14px;" onclick="saveSchedule()">💾 שמור מערכת שעות</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-addEvent">
+  <div class="modal">
+    <h3>הוספת אירוע / הודעה</h3>
+    <div class="form-group" style="margin-bottom:12px;"><label>כותרת</label><input id="evTitle" placeholder="כותרת האירוע" /></div>
+    <div class="form-group" style="margin-bottom:12px;"><label>תיאור</label><textarea id="evDesc" rows="3" placeholder="פרטים נוספים..."></textarea></div>
+    <div class="form-grid">
+      <div class="form-group"><label>תאריך</label><input id="evDate" type="date" /></div>
+      <div class="form-group"><label>סוג</label>
+        <select id="evType">
+          <option value="event">אירוע</option>
+          <option value="trip">טיול</option>
+          <option value="exam">מבחן</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('addEvent')">ביטול</button>
+      <button class="btn btn-primary" onclick="addEvent()">שמור</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-addExam">
+  <div class="modal">
+    <h3>הוספת מבחן</h3>
+    <div class="form-group" style="margin-bottom:12px;"><label>מקצוע</label><input id="exSubject" placeholder="מקצוע" /></div>
+    <div class="form-group" style="margin-bottom:12px;"><label>פרטים</label><input id="exDesc" placeholder="פרקים / חומר למבחן" /></div>
+    <div class="form-grid">
+      <div class="form-group"><label>תאריך</label><input id="exDate" type="date" /></div>
+      <div class="form-group"><label>שעה</label><input id="exTime" type="time" /></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('addExam')">ביטול</button>
+      <button class="btn btn-primary" onclick="addExam()">שמור</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-editCred">
+  <div class="modal">
+    <h3>🔑 עריכת פרטי כניסה</h3>
+    <p style="color:var(--mid);font-size:14px;margin-bottom:16px;">תלמידה: <strong id="editCredName"></strong></p>
+    <input type="hidden" id="editCredIdx" />
+    <div class="form-group" style="margin-bottom:12px;">
+      <label>שם משתמש</label>
+      <input id="editCredUser" placeholder="שם משתמש לכניסה" />
+    </div>
+    <div class="form-group" style="margin-bottom:12px;">
+      <label>סיסמה</label>
+      <input id="editCredPass" type="text" placeholder="סיסמה" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('editCred')">ביטול</button>
+      <button class="btn btn-primary" onclick="saveCredentials()">שמור</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script data-cfasync="false">
+
+// ========== SUPABASE ==========
+const SUPABASE_URL = 'https://zzieybncimsqzghbmpoc.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_O3uZkyGS9TGYp9orycABiw_UDMAX3Vi';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ========== LOCAL STATE ==========
+let appData = {
+  users: [], students: [], events: [], exams: [],
+  schedule: {
+    times: ['08:00-09:00','09:00-09:45','הפסקת אוכל 09:45-10:00','הפסקה','10:30-11:15','11:15-12:00','הפסקה','12:15-13:00','13:00-13:30'],
+    days: ['ראשון','שני','שלישי','רביעי','חמישי'],
+    lessons: [
+      ['מתמטיקה','עברית','אנגלית','מתמטיקה','עברית'],
+      ['עברית','מתמטיקה','מדעים','אנגלית','מתמטיקה'],
+      ['אנגלית','מדעים','עברית','עברית','מדעים'],
+      ['הפסקה','הפסקה','הפסקה','הפסקה','הפסקה'],
+      ['תנ"ך','תנ"ך','מתמטיקה','מדעים','אנגלית'],
+      ['מדעים','אנגלית','תנ"ך','תנ"ך','תנ"ך'],
+      ['הפסקה','הפסקה','הפסקה','הפסקה','הפסקה'],
+      ['חינוך גופני','אמנות','חינוך גופני','עברית','אמנות'],
+      ['ספריה','מחשבים','חינוך חברתי','מחשבים','—'],
+    ]
+  }
+};
+
+let currentUser = null;
+
+// ========== LOAD FROM SUPABASE ==========
+async function loadFromSupabase() {
+  showLoadingOverlay(true);
+  try {
+    const [usersRes, studentsRes, eventsRes, examsRes, scheduleRes] = await Promise.all([
+      sb.from('users').select('*'),
+      sb.from('students').select('*'),
+      sb.from('events').select('*'),
+      sb.from('exams').select('*'),
+      sb.from('schedule').select('*').eq('id', 1).single()
+    ]);
+
+    if (usersRes.data?.length) {
+      appData.users = usersRes.data;
+    } else {
+      // First run - seed admin user
+      await sb.from('users').insert([
+        { username: 'admin', password: 'admin123', display: 'נטע פלג', role: 'admin' }
+      ]);
+      appData.users = [{ username: 'admin', password: 'admin123', display: 'נטע פלג', role: 'admin' }];
+    }
+
+    if (studentsRes.data) appData.students = studentsRes.data.map(s => ({
+      ...s, hebrewMonth: s.hebrew_month, hdob: s.hdob, dob: s.dob
+    }));
+
+    if (eventsRes.data) appData.events = eventsRes.data.map(e => ({
+      ...e, desc: e.description
+    }));
+
+    if (examsRes.data) appData.exams = examsRes.data.map(e => ({
+      ...e, desc: e.description
+    }));
+
+    if (scheduleRes.data?.data) {
+      appData.schedule = scheduleRes.data.data;
+    } else {
+      // First run - save default schedule
+      await sb.from('schedule').upsert({ id: 1, data: appData.schedule });
+    }
+  } catch(err) {
+    console.error('Supabase load error:', err);
+    showToast('⚠️ שגיאה בטעינת נתונים');
+  }
+  showLoadingOverlay(false);
+}
+
+function showLoadingOverlay(show) {
+  let el = document.getElementById('loadingOverlay');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'loadingOverlay';
+    el.style.cssText = 'position:fixed;inset:0;background:rgba(44,95,138,0.7);z-index:99998;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;';
+    el.innerHTML = '<div style="width:48px;height:48px;border:5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin 1s linear infinite;"></div><p style="color:white;font-size:16px;font-weight:700;">טוען נתונים...</p><style>@keyframes spin{to{transform:rotate(360deg)}}</style>';
+    document.body.appendChild(el);
+  }
+  el.style.display = show ? 'flex' : 'none';
+}
+
+// ========== HEBREW DATE ==========
+function extractHebrewMonth() {
+  const now = new Date();
+  const hFull = now.toLocaleDateString('he-IL-u-ca-hebrew', { month: 'long' });
+  if (hFull.includes('אדר')) return 'אדר';
+  if (hFull.includes('תשרי')) return 'תשרי';
+  if (hFull.includes('חשון') || hFull.includes('מרחשון')) return 'חשון';
+  if (hFull.includes('כסלו')) return 'כסלו';
+  if (hFull.includes('טבת')) return 'טבת';
+  if (hFull.includes('שבט')) return 'שבט';
+  if (hFull.includes('ניסן')) return 'ניסן';
+  if (hFull.includes('אייר')) return 'אייר';
+  if (hFull.includes('סיון')) return 'סיון';
+  if (hFull.includes('תמוז')) return 'תמוז';
+  if (hFull.includes('אב')) return 'אב';
+  if (hFull.includes('אלול')) return 'אלול';
+  return hFull;
+}
+let currentHebrewMonth = extractHebrewMonth();
+
+// ========== AUTH ==========
+async function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  document.getElementById('loginError').textContent = '';
+  showLoadingOverlay(true);
+  await loadFromSupabase();
+
+  let user = appData.users.find(x => x.username === u && x.password === p);
+  if (!user) {
+    const student = appData.students.find(s => s.username === u && s.password === p);
+    if (student) user = { username: student.username, password: student.password, display: student.name, role: 'viewer', isStudent: true };
+  }
+  if (!user) {
+    document.getElementById('loginError').textContent = 'שם משתמש או סיסמה שגויים';
+    return;
+  }
+  currentUser = user;
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('userChipName').textContent = user.display;
+  setupForRole();
+  initAll();
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginError').textContent = '';
+}
+
+function setupForRole() {
+  const isAdmin = currentUser.role === 'admin';
+  const isSub = currentUser.role === 'sub' || isAdmin;
+  document.querySelectorAll('.admin-only').forEach(el => { el.style.display = isAdmin ? '' : 'none'; });
+  if (isSub) {
+    document.getElementById('addEventBtn').style.display = '';
+    document.getElementById('addExamBtn').style.display = '';
+    const actionsHeader = document.getElementById('actionsHeader');
+    if (actionsHeader) actionsHeader.style.display = '';
+  }
+}
+
+// ========== CLOCK & SHABBAT ==========
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clockTime').textContent = now.toLocaleTimeString('he-IL', { hour12: false });
+  document.getElementById('clockDate').textContent = now.toLocaleDateString('he-IL', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+
+function computeShabbat() {
+  const now = new Date();
+  const day = now.getDay();
+  const daysToFri = (5 - day + 7) % 7 || 7;
+  const friday = new Date(now);
+  friday.setDate(friday.getDate() + daysToFri);
+  const month = friday.getMonth();
+  const baseMin = [17*60+10, 17*60+25, 17*60+55, 18*60+25, 18*60+50, 19*60+30, 19*60+40, 19*60+20, 18*60+45, 18*60+5, 17*60+25, 17*60+10][month];
+  const fmt = (m) => `${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
+  document.getElementById('shabbatIn').textContent = fmt(baseMin - 18);
+  document.getElementById('shabbatOut').textContent = fmt(baseMin + 42);
+  document.getElementById('shabbatCity').textContent = `גבעת שמואל • שבת ${friday.toLocaleDateString('he-IL', {day:'numeric', month:'long'})}`;
+}
+
+// ========== BIRTHDAY ==========
+function showBirthdayBanner() {
+  const bday = appData.students.filter(s => (s.hebrewMonth || s.hebrew_month) === currentHebrewMonth);
+  const banner = document.getElementById('birthdayBanner');
+  const names = document.getElementById('bdayNames');
+  if (bday.length > 0) {
+    banner.classList.remove('hidden');
+    names.innerHTML = bday.map(s => `<span class="bday-chip">🎂 ${s.name}</span>`).join('');
+  } else {
+    banner.classList.add('hidden');
+  }
+}
+
+// ========== HEBREW MONTH ==========
+function hebrewYearStr(y) {
+  const map = {5780:'תש"פ',5781:'תשפ"א',5782:'תשפ"ב',5783:'תשפ"ג',5784:'תשפ"ד',5785:'תשפ"ה',5786:'תשפ"ו',5787:'תשפ"ז',5788:'תשפ"ח',5789:'תשפ"ט',5790:'תש"צ'};
+  return map[y] || y;
+}
+function setHebrewMonth() {
+  const now = new Date();
+  const hDay = now.toLocaleDateString('he-IL-u-ca-hebrew', { day: 'numeric' });
+  const hMonth = now.toLocaleDateString('he-IL-u-ca-hebrew', { month: 'long' });
+  const hYearNum = parseInt(now.toLocaleDateString('en-u-ca-hebrew', { year: 'numeric' }));
+  const hYear = hebrewYearStr(hYearNum);
+  document.getElementById('hebrewMonthTitle').textContent = `חודש ${hMonth} ${hYear}`;
+  document.getElementById('hebrewDateFull').textContent = `${hDay} ב${hMonth} ${hYear}`;
+}
+
+// ========== PARASHA ==========
+function getParasha() {
+  const list = ['בראשית','נח','לך לך','וירא','חיי שרה','תולדות','ויצא','וישלח','וישב','מקץ','ויגש','ויחי','שמות','וארא','בא','בשלח','יתרו','משפטים','תרומה','תצוה','כי תשא','ויקהל-פקודי','ויקרא','צו','שמיני','תזריע-מצורע','אחרי מות-קדושים','אמור','בהר-בחוקותי','במדבר','נשא','בהעלותך','שלח','קורח','חוקת','בלק','פינחס','מטות-מסעי','דברים','ואתחנן','עקב','ראה','שופטים','כי תצא','כי תבוא','נצבים-וילך','האזינו','וזאת הברכה'];
+  const breshit = new Date('2025-10-18');
+  const now = new Date();
+  const dow = now.getDay();
+  const toNext = dow === 6 ? 7 : 6 - dow;
+  const next = new Date(now); next.setDate(now.getDate() + toNext);
+  const weeks = Math.round((next - breshit) / (7*24*3600*1000));
+  return list[Math.max(0, weeks) % list.length];
+}
+function setParasha() {
+  const el = document.getElementById('parashaName');
+  if (el) el.textContent = getParasha();
+}
+
+// ========== STUDENTS ==========
+function renderStudents() {
+  const tbody = document.getElementById('studentsTbody');
+  const isAdmin = currentUser && (currentUser.role === 'admin' || currentUser.role === 'sub');
+  const actionsHeader = document.getElementById('actionsHeader');
+  if (actionsHeader) actionsHeader.style.display = isAdmin ? '' : 'none';
+  tbody.innerHTML = appData.students.map((s, i) => `
+    <tr>
+      <td style="color:var(--mid);font-size:12px;">${i+1}</td>
+      <td><strong>${s.name}</strong></td>
+      <td><span class="badge badge-girl">${s.hdob||''}</span></td>
+      <td style="font-size:13px;color:var(--mid);">${s.dob||''}</td>
+      <td>📱 ${s.phone||''}</td>
+      <td>${s.student_phone ? '📱 '+s.student_phone : '—'}</td>
+      <td>${s.parent||''}</td>
+      <td style="display:${isAdmin?'':'none'}">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span style="font-size:12px;background:var(--soft-blue);padding:3px 8px;border-radius:6px;color:var(--primary);font-weight:600;">${s.username||'—'}</span>
+          <button class="btn btn-accent btn-sm" data-idx="${i}" onclick="openEditCredentials(this)">🔑</button>
+          <button class="btn btn-danger btn-sm" data-idx="${i}" onclick="removeStudent(this)">🗑</button>
+        </div>
+      </td>
+    </tr>`).join('');
+  document.getElementById('studentCount').textContent = `${appData.students.length} תלמידות`;
+}
+
+function filterStudents() {
+  const q = document.getElementById('searchStudents').value.toLowerCase();
+  document.querySelectorAll('#studentsTbody tr').forEach(tr => {
+    tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function openEditCredentials(btn) {
+  const i = parseInt(btn.getAttribute('data-idx'));
+  const s = appData.students[i];
+  document.getElementById('editCredIdx').value = i;
+  document.getElementById('editCredName').textContent = s.name;
+  document.getElementById('editCredUser').value = s.username || '';
+  document.getElementById('editCredPass').value = s.password || '';
+  openModal('editCred');
+}
+
+async function saveCredentials() {
+  const i = parseInt(document.getElementById('editCredIdx').value);
+  const newUser = document.getElementById('editCredUser').value.trim();
+  const newPass = document.getElementById('editCredPass').value.trim();
+  if (!newUser || !newPass) { showToast('יש למלא שם משתמש וסיסמה'); return; }
+  const dup = appData.students.find((s, idx) => idx !== i && s.username === newUser);
+  if (dup) { showToast('שם המשתמש כבר תפוס!'); return; }
+  const s = appData.students[i];
+  await sb.from('students').update({ username: newUser, password: newPass }).eq('id', s.id);
+  s.username = newUser; s.password = newPass;
+  renderStudents();
+  closeModal('editCred');
+  showToast(`✅ פרטי כניסה עודכנו ל${s.name}`);
+}
+
+async function removeStudent(btn) {
+  const i = parseInt(btn.getAttribute('data-idx'));
+  const s = appData.students[i];
+  await sb.from('students').delete().eq('id', s.id);
+  appData.students.splice(i, 1);
+  renderStudents();
+  showBirthdayBanner();
+  showToast(`🗑 ${s.name} הוסרה`);
+}
+
+async function addStudent() {
+  const name = document.getElementById('newName').value.trim();
+  const dob = document.getElementById('newDOB').value;
+  const hdob = document.getElementById('newHDOB').value.trim();
+  const phone = document.getElementById('newPhone').value.trim();
+  const student_phone = document.getElementById('newStudentPhone').value.trim();
+  const parent = document.getElementById('newParent').value.trim();
+  const hebrew_month = document.getElementById('newHebrewMonth').value;
+  const username = document.getElementById('newUsername2').value.trim();
+  const password = document.getElementById('newUserPass2').value.trim();
+  if (!name || !phone) { showToast('יש למלא שם וטלפון'); return; }
+  if (username && appData.students.find(s => s.username === username)) { showToast('שם המשתמש כבר תפוס!'); return; }
+  const { data, error } = await sb.from('students').insert([{ name, dob, hdob, phone, student_phone, parent, hebrew_month, username, password }]).select().single();
+  if (error) { showToast('שגיאה בשמירה'); return; }
+  appData.students.push({ ...data, hebrewMonth: data.hebrew_month });
+  renderStudents();
+  showBirthdayBanner();
+  ['newName','newDOB','newHDOB','newPhone','newStudentPhone','newParent','newUsername2','newUserPass2'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('newHebrewMonth').value = '';
+  showToast('✅ תלמידה נוספה!');
+}
+
+// ========== SCHEDULE ==========
+function renderSchedule() {
+  const { times, days, lessons } = appData.schedule;
+  const grid = document.getElementById('scheduleGrid');
+  let html = '<div class="sch-header"></div>';
+  days.forEach(d => html += `<div class="sch-header">${d}</div>`);
+  times.forEach((t, ri) => {
+    const isBreak = t === 'הפסקה' || t.startsWith('הפסקת אוכל');
+    const breakLabel = t.startsWith('הפסקת אוכל') ? '🍱 הפסקת אוכל<br><small>09:45-10:00</small>' : '☕ הפסקה';
+    html += `<div class="sch-time" style="${isBreak?'background:#FFF9E6;color:#B8860B;font-size:11px;':''}">${isBreak ? breakLabel : t}</div>`;
+    days.forEach((_, di) => {
+      const lesson = lessons[ri][di];
+      const isLessonBreak = lesson === 'הפסקה';
+      if (isBreak || isLessonBreak) {
+        html += `<div class="sch-cell sch-break">הפסקה</div>`;
+      } else {
+        const colors = {'מתמטיקה':'#EBF4FB','עברית':'#E8F8F0','אנגלית':'#FFF9E6','מדעים':'#F0F0FF','תנ"ך':'#FFF0E8','חינוך גופני':'#E8F5E9','אמנות':'#FCE4EC','מחשבים':'#E3F2FD','ספריה':'#F3E5F5','חינוך חברתי':'#E8F5E9','—':'#F7F9FC'};
+        const bg = colors[lesson] || '#EBF4FB';
+        html += `<div class="sch-cell sch-lesson" style="background:${bg}">${lesson||'—'}</div>`;
+      }
+    });
+  });
+  grid.innerHTML = html;
+}
+
+function renderScheduleEditor() {
+  const body = document.getElementById('scheduleEditorBody');
+  if (!body) return;
+  const { times, lessons } = appData.schedule;
+  body.innerHTML = times.map((t, ri) => {
+    const isBreak = t === 'הפסקה' || t.startsWith('הפסקת אוכל');
+    const cells = isBreak
+      ? `<td colspan="5" style="background:#FFF9E6;color:#B8860B;text-align:center;padding:8px;font-weight:600;">☕ ${t}</td>`
+      : appData.schedule.days.map((_, di) => {
+          const val = lessons[ri][di] || '';
+          return `<td style="padding:4px;"><input value="${val}" data-row="${ri}" data-col="${di}"
+            style="width:100%;padding:7px 8px;border:2px solid var(--border);border-radius:6px;font-family:'Heebo',sans-serif;font-size:13px;outline:none;direction:rtl;"
+            onfocus="this.style.borderColor='var(--primary)'"
+            onblur="this.style.borderColor='var(--border)'"
+            onchange="updateLesson(this)" /></td>`;
+        }).join('');
+    return `<tr><td style="padding:8px 10px;background:var(--soft-blue);font-size:12px;font-weight:600;color:var(--mid);white-space:nowrap;text-align:center;">${t}</td>${cells}</tr>`;
+  }).join('');
+}
+
+function updateLesson(input) {
+  const ri = parseInt(input.getAttribute('data-row'));
+  const di = parseInt(input.getAttribute('data-col'));
+  appData.schedule.lessons[ri][di] = input.value.trim();
+}
+
+async function saveSchedule() {
+  await sb.from('schedule').upsert({ id: 1, data: appData.schedule });
+  renderSchedule();
+  showToast('✅ מערכת השעות נשמרה!');
+}
+
+// ========== EVENTS ==========
+const typeLabels = { event:{label:'אירוע',cls:'type-event'}, trip:{label:'טיול',cls:'type-trip'}, exam:{label:'מבחן',cls:'type-exam'} };
+const monthNames = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+
+function renderEvents() {
+  const sorted = [...appData.events].sort((a,b) => new Date(a.date)-new Date(b.date));
+  const isAdmin = currentUser && (currentUser.role === 'admin' || currentUser.role === 'sub');
+  document.getElementById('eventsList').innerHTML = sorted.map((e,i) => {
+    const d = new Date(e.date+'T12:00:00');
+    const t = typeLabels[e.type]||typeLabels.event;
+    return `<div class="event-item">
+      <div class="event-date-box"><div class="day">${d.getDate()}</div><div class="month">${monthNames[d.getMonth()]}</div></div>
+      <div class="event-info"><h4>${e.title}</h4><p>${e.desc||e.description||''}</p></div>
+      <span class="event-type ${t.cls}">${t.label}</span>
+      ${isAdmin?`<button class="btn btn-danger btn-sm" style="margin-right:8px;" data-idx="${i}" onclick="removeEvent(this)">✕</button>`:''}
+    </div>`;
+  }).join('');
+  const upcoming = sorted.filter(e => new Date(e.date) >= new Date()).slice(0,3);
+  document.getElementById('homeEvents').innerHTML = upcoming.length ? upcoming.map(e => {
+    const d = new Date(e.date+'T12:00:00');
+    const t = typeLabels[e.type]||typeLabels.event;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span class="event-type ${t.cls}" style="min-width:50px;text-align:center;">${t.label}</span>
+      <div><strong style="font-size:14px;">${e.title}</strong><p style="font-size:12px;color:var(--mid);">${d.toLocaleDateString('he-IL')}</p></div>
+    </div>`;
+  }).join('') : '<p style="color:var(--mid);font-size:14px;">אין אירועים קרובים</p>';
+}
+
+async function removeEvent(btn) {
+  const i = parseInt(btn.getAttribute('data-idx'));
+  const sorted = [...appData.events].sort((a,b) => new Date(a.date)-new Date(b.date));
+  const ev = sorted[i];
+  await sb.from('events').delete().eq('id', ev.id);
+  appData.events = appData.events.filter(e => e.id !== ev.id);
+  renderEvents();
+  showToast('אירוע הוסר');
+}
+
+async function addEvent() {
+  const title = document.getElementById('evTitle').value.trim();
+  const description = document.getElementById('evDesc').value.trim();
+  const date = document.getElementById('evDate').value;
+  const type = document.getElementById('evType').value;
+  if (!title || !date) { showToast('יש למלא כותרת ותאריך'); return; }
+  const { data, error } = await sb.from('events').insert([{ title, description, date, type }]).select().single();
+  if (error) { showToast('שגיאה בשמירה'); return; }
+  appData.events.push({ ...data, desc: data.description });
+  renderEvents();
+  closeModal('addEvent');
+  showToast('✅ אירוע נוסף!');
+}
+
+// ========== EXAMS ==========
+function renderExams() {
+  const sorted = [...appData.exams].sort((a,b) => new Date(a.date)-new Date(b.date));
+  const isAdmin = currentUser && (currentUser.role === 'admin' || currentUser.role === 'sub');
+  const icons = {'מתמטיקה':'🔢','עברית':'📖','אנגלית':'🌍','מדעים':'🔬','תנ"ך':'📜'};
+  document.getElementById('examsList').innerHTML = sorted.map((e,i) => {
+    const d = new Date(e.date+'T12:00:00');
+    const daysLeft = Math.ceil((d-new Date())/86400000);
+    const urgentStyle = daysLeft<=7&&daysLeft>=0?'border-color:var(--red);':'';
+    return `<div class="exam-card" style="${urgentStyle}">
+      <div class="exam-icon">${icons[e.subject]||'📝'}</div>
+      <div class="exam-info"><h4>${e.subject}</h4><p>${e.desc||e.description||''}${e.time?' | שעה '+e.time:''}</p></div>
+      <div class="exam-date">${d.toLocaleDateString('he-IL')}<br>
+        <span style="font-size:11px;color:${daysLeft<=7&&daysLeft>=0?'var(--red)':'var(--mid)'};">
+          ${daysLeft<0?'עבר':daysLeft===0?'היום!':`עוד ${daysLeft} ימים`}
+        </span>
+      </div>
+      ${isAdmin?`<button class="btn btn-danger btn-sm" data-idx="${i}" onclick="removeExam(this)">✕</button>`:''}
+    </div>`;
+  }).join('');
+  const upcoming = sorted.filter(e => new Date(e.date) >= new Date()).slice(0,3);
+  document.getElementById('homeExams').innerHTML = upcoming.length ? upcoming.map(e => {
+    const d = new Date(e.date+'T12:00:00');
+    const daysLeft = Math.ceil((d-new Date())/86400000);
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:22px;">${icons[e.subject]||'📝'}</span>
+      <div><strong style="font-size:14px;">${e.subject}</strong>
+      <p style="font-size:12px;color:var(--mid);">${d.toLocaleDateString('he-IL')} | עוד ${daysLeft} ימים</p></div>
+    </div>`;
+  }).join('') : '<p style="color:var(--mid);font-size:14px;">אין מבחנים קרובים</p>';
+}
+
+async function removeExam(btn) {
+  const i = parseInt(btn.getAttribute('data-idx'));
+  const sorted = [...appData.exams].sort((a,b) => new Date(a.date)-new Date(b.date));
+  const ex = sorted[i];
+  await sb.from('exams').delete().eq('id', ex.id);
+  appData.exams = appData.exams.filter(e => e.id !== ex.id);
+  renderExams();
+  showToast('מבחן הוסר');
+}
+
+async function addExam() {
+  const subject = document.getElementById('exSubject').value.trim();
+  const description = document.getElementById('exDesc').value.trim();
+  const date = document.getElementById('exDate').value;
+  const time = document.getElementById('exTime').value;
+  if (!subject || !date) { showToast('יש למלא מקצוע ותאריך'); return; }
+  const { data, error } = await sb.from('exams').insert([{ subject, description, date, time }]).select().single();
+  if (error) { showToast('שגיאה בשמירה'); return; }
+  appData.exams.push({ ...data, desc: data.description });
+  renderExams();
+  closeModal('addExam');
+  showToast('✅ מבחן נוסף!');
+}
+
+// ========== USERS ==========
+function renderUsers() {
+  const list = document.getElementById('usersList');
+  if (!list) return;
+  list.innerHTML = appData.users.map((u, i) => `
+    <div class="user-row">
+      <div class="user-avatar ${u.role==='admin'?'avatar-admin':'avatar-sub'}">${u.display[0]}</div>
+      <div><strong>${u.display}</strong>
+        <p style="font-size:12px;color:var(--mid);">@${u.username} | ${u.role==='admin'?'מנהל ראשי':u.role==='sub'?'מנהל משנה':'צופה'}</p>
+      </div>
+      ${u.role!=='admin'?`<button class="btn btn-danger btn-sm" style="margin-right:auto;" data-idx="${i}" onclick="removeUser(this)">הסר</button>`:'<span style="margin-right:auto;font-size:12px;color:var(--mid);">מנהל ראשי</span>'}
+    </div>`).join('');
+}
+
+async function removeUser(btn) {
+  const i = parseInt(btn.getAttribute('data-idx'));
+  const u = appData.users[i];
+  await sb.from('users').delete().eq('id', u.id);
+  appData.users.splice(i, 1);
+  renderUsers();
+  showToast('משתמש הוסר');
+}
+
+async function addUser() {
+  const username = document.getElementById('newUsername').value.trim();
+  const password = document.getElementById('newUserPass').value.trim();
+  const display = document.getElementById('newUserDisplay').value.trim();
+  const role = document.getElementById('newUserRole').value;
+  if (!username || !password || !display) { showToast('יש למלא את כל השדות'); return; }
+  if (appData.users.find(u => u.username === username)) { showToast('שם משתמש כבר קיים'); return; }
+  const { data, error } = await sb.from('users').insert([{ username, password, display, role }]).select().single();
+  if (error) { showToast('שגיאה בשמירה'); return; }
+  appData.users.push(data);
+  renderUsers();
+  ['newUsername','newUserPass','newUserDisplay'].forEach(id => document.getElementById(id).value = '');
+  showToast('✅ משתמש נוסף!');
+}
+
+// ========== NAV ==========
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    if (b.getAttribute('onclick')?.includes(`'${name}'`)) b.classList.add('active');
+  });
+}
+
+// ========== MODAL ==========
+function openModal(name) { document.getElementById('modal-'+name).classList.add('active'); }
+function closeModal(name) { document.getElementById('modal-'+name).classList.remove('active'); }
+document.addEventListener('click', e => { if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active'); });
+
+// ========== TOAST ==========
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ========== INIT ==========
+function initAll() {
+  setHebrewMonth(); setParasha(); showBirthdayBanner();
+  renderStudents(); renderSchedule(); renderScheduleEditor();
+  renderEvents(); renderExams(); renderUsers();
+  computeShabbat(); updateClock();
+}
+
+setInterval(updateClock, 1000);
+setInterval(computeShabbat, 600000);
+
+// ========== EXPOSE TO WINDOW ==========
+window.doLogin=doLogin; window.doLogout=doLogout; window.showPage=showPage;
+window.openModal=openModal; window.closeModal=closeModal;
+window.addStudent=addStudent; window.removeStudent=removeStudent;
+window.addEvent=addEvent; window.removeEvent=removeEvent;
+window.addExam=addExam; window.removeExam=removeExam;
+window.addUser=addUser; window.removeUser=removeUser;
+window.filterStudents=filterStudents;
+window.openEditCredentials=openEditCredentials; window.saveCredentials=saveCredentials;
+window.saveSchedule=saveSchedule; window.updateLesson=updateLesson;
+window.setParasha=setParasha;
+
+document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
+document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key==='Enter') doLogin(); });
+const todayStr = new Date().toISOString().split('T')[0];
+document.getElementById('evDate').value = todayStr;
+document.getElementById('exDate').value = todayStr;
+</script>
+</body>
+</html>
